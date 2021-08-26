@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainScreenFragment">
+
+    <fragment
+        android:id="@+id/mainScreenFragment"
+        android:name="com.example.rsschooltask4.MainScreenFragment"
+        android:label="@string/main_screen_title"
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_mainScreenFragment_to_addingItemsScreenFragment"
+            app:destination="@id/addingItemsScreenFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_sortSettingScreenFragment"
+            app:destination="@id/sortSettingScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addingItemsScreenFragment"
+        android:name="com.example.rsschooltask4.AddingItemsScreenFragment"
+        android:label="@string/adding_items_screen_title"
+        tools:layout="@layout/fragment_adding_items_screen">
+        <action
+            android:id="@+id/action_addingItemsScreenFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sortSettingScreenFragment"
+        android:name="com.example.rsschooltask4.SortSettingScreenFragment"
+        android:label="@string/sort_setting_screen" >
+        <action
+            android:id="@+id/action_sortSettingScreenFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+    </fragment>
+</navigation>

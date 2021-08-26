@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RSSchool Task 4</string>
+    <string name="add_button">Add</string>
+    <string name="first_parameter">Name</string>
+    <string name="second_parameter">Age</string>
+    <string name="third_parameter">Breed</string>
+    <string name="main_screen_title">Main</string>
+    <string name="adding_items_screen_title">Add item</string>
+    <string name="sort_setting_screen">Sort by</string>
+    <string name="menu_item_sort">Sort by</string>
 </resources>
