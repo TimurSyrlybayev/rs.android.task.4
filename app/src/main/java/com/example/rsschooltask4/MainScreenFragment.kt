@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.rsschooltask4.databinding.FragmentMainScreenBinding
 
@@ -25,7 +27,13 @@ class MainScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonMoveToAddingItemsScreen.setOnClickListener {
-            findNavController().navigate(R.id.action_mainScreenFragment_to_addingItemsScreenFragment)
+            findNavController().safeNavigate(MainScreenFragmentDirections.actionMainScreenFragmentToAddingItemsScreenFragment())
+        }
+    }
+
+    private fun NavController.safeNavigate(direction: NavDirections) {
+        currentDestination?.getAction(direction.actionId)?.run {
+            navigate(direction)
         }
     }
 
