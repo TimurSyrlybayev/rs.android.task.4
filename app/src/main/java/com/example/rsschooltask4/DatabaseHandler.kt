@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
 import android.widget.EditText
 
 class DatabaseHandler(context: Context) :
@@ -29,15 +30,15 @@ class DatabaseHandler(context: Context) :
         val db: SQLiteDatabase = writableDatabase
         val values = ContentValues()
         values.put(KEY_FIRST_PARAMETER, firstParameter?.text.toString())
-        values.put(KEY_SECOND_PARAMETER, secondParameter?.text.toString().toLong())
+        values.put(KEY_SECOND_PARAMETER, secondParameter?.text.toString())
         values.put(KEY_THIRD_PARAMETER, thirdParameter?.text.toString())
         db.insert(TABLE_NAME, null, values)
         db.close()
     }
 
-    fun readItem(): ArrayList<ItemData> {
+    fun readItem(): MutableList<ItemData> {
         val db: SQLiteDatabase = readableDatabase
-        val list = ArrayList<ItemData>()
+        val list = mutableListOf<ItemData>()
         val selectAll = "SELECT * FROM $TABLE_NAME"
         val cursor: Cursor = db.rawQuery(selectAll, null)
 
@@ -47,7 +48,7 @@ class DatabaseHandler(context: Context) :
                     val itemData = ItemData(
                         getLong(getColumnIndex(KEY_ID)),
                         getString(getColumnIndex(KEY_FIRST_PARAMETER)),
-                        getLong(getColumnIndex(KEY_SECOND_PARAMETER)),
+                        getString(getColumnIndex(KEY_SECOND_PARAMETER)),
                         getString(getColumnIndex(KEY_THIRD_PARAMETER)),
                     )
                     list.add(itemData)
@@ -59,7 +60,7 @@ class DatabaseHandler(context: Context) :
     }
 
     fun updateItem(
-        id: EditText?,
+        id: Long,
         firstParameter: EditText?,
         secondParameter: EditText?,
         thirdParameter: EditText?,
@@ -71,10 +72,15 @@ class DatabaseHandler(context: Context) :
         if (secondParameter?.text?.isNotEmpty()!!) values.put(KEY_SECOND_PARAMETER, secondParameter.text.toString())
         if (thirdParameter?.text?.isNotEmpty()!!) values.put(KEY_THIRD_PARAMETER, thirdParameter.text.toString())
 
-        db.update(TABLE_NAME, values, "$KEY_ID=?", arrayOf(id.toString()))
+        if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                !values.isEmpty
+            } else {
+                !values.equals("")
+            }
+        ) db.update(TABLE_NAME, values, "$KEY_ID=?", arrayOf(id.toString()))
     }
 
-    fun deleteItem(id: EditText?) {
+    fun deleteItem(id: Long) {
         val db:SQLiteDatabase = writableDatabase
 
         db.delete(TABLE_NAME, "$KEY_ID=?", arrayOf(id.toString()))

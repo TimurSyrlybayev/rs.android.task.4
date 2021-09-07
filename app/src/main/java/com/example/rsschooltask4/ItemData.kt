@@ -11,6 +11,6 @@ const val KEY_THIRD_PARAMETER = "itemthirdparameter"
 data class ItemData(
     val id: Long,
     val first_parameter: String,
-    val second_parameter: Long,
+    val second_parameter: String,
     val third_parameter: String,
 )

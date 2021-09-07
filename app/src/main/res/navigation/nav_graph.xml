@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mainScreenFragment_to_sortSettingScreenFragment"
             app:destination="@id/sortSettingScreenFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_updatingItemsScreenFragment"
+            app:destination="@id/updatingItemsScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/addingItemsScreenFragment"
@@ -33,5 +36,17 @@
         <action
             android:id="@+id/action_sortSettingScreenFragment_to_mainScreenFragment"
             app:destination="@id/mainScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updatingItemsScreenFragment"
+        android:name="com.example.rsschooltask4.UpdatingItemsScreenFragment"
+        android:label="UpdatingItemsScreenFragment"
+        tools:layout="@layout/fragment_updating_items_screen">
+        <action
+            android:id="@+id/action_updatingItemsScreenFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+        <argument
+            android:name="identificationNumber"
+            app:argType="long" />
     </fragment>
 </navigation>

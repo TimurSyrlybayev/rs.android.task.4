@@ -29,6 +29,11 @@ class AddingItemsScreenFragment : Fragment() {
         binding.buttonAdd.setOnClickListener {
             DatabaseHandler(context)
                 .createItem(binding.firstParameter, binding.secondParameter, binding.thirdParameter)
+            binding.apply {
+                firstParameter.text.clear()
+                secondParameter.text.clear()
+                thirdParameter.text.clear()
+            }
         }
     }
 
