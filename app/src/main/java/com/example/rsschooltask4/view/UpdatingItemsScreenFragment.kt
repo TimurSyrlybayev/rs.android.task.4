@@ -1,4 +1,4 @@
-package com.example.rsschooltask4
+package com.example.rsschooltask4.view
 
 import android.os.Bundle
 import android.view.Gravity
@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.rsschooltask4.data.DatabaseHandler
 import com.example.rsschooltask4.databinding.FragmentUpdatingItemsScreenBinding
+import com.example.rsschooltask4.viewmodel.TaskViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class UpdatingItemsScreenFragment : Fragment() {
@@ -36,9 +36,10 @@ class UpdatingItemsScreenFragment : Fragment() {
         val secondField = binding.updateSecondParameter
         val thirdField = binding.updateThirdParameter
         val args = UpdatingItemsScreenFragmentArgs.fromBundle(requireArguments())
+        val viewModel = TaskViewModel()
         val snack = Snackbar.make(
             view,
-            "Please fill at least one field to update",
+            "Please fill at least one field to update record",
             Snackbar.LENGTH_LONG,
         )
         val v = snack.view
@@ -54,13 +55,19 @@ class UpdatingItemsScreenFragment : Fragment() {
             ) {
                 snack.show()
             } else {
-                DatabaseHandler(context)
-                    .updateItem(
-                        args.identificationNumber,
-                        firstField,
-                        secondField,
-                        thirdField,
-                    )
+//                DatabaseHandler(context)
+//                    .updateItem(
+//                        args.identificationNumber,
+//                        firstField,
+//                        secondField,
+//                        thirdField,
+//                    )
+                viewModel.updateRecord(
+                    args.identificationNumber,
+                    firstField.text.toString(),
+                    secondField.text.toString(),
+                    thirdField.text.toString(),
+                )
 
                 findNavController().safeNavigate(
                     UpdatingItemsScreenFragmentDirections

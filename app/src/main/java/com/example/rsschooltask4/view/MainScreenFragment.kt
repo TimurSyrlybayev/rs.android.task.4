@@ -1,7 +1,5 @@
-package com.example.rsschooltask4
+package com.example.rsschooltask4.view
 
-import android.database.sqlite.SQLiteDatabase
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -11,15 +9,19 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rsschooltask4.data.DatabaseHandler
+import com.example.rsschooltask4.R
+import com.example.rsschooltask4.data.model.ItemData
 import com.example.rsschooltask4.databinding.FragmentMainScreenBinding
+import com.example.rsschooltask4.viewmodel.TaskViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class MainScreenFragment : Fragment() {
@@ -29,6 +31,8 @@ class MainScreenFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var adapter: RecyclerAdapter? = null
     private var list: MutableList<ItemData>? = null
+    private var viewModel: TaskViewModel? = null
+//    private val provider = ViewModelProvider(this).get(TaskViewModel::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +42,15 @@ class MainScreenFragment : Fragment() {
         _binding = FragmentMainScreenBinding.inflate(inflater, container, false)
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
+        viewModel = TaskViewModel()
 
-        updateRecycler()
+        viewModel!!.list.observe(
+            viewLifecycleOwner,
+            Observer { l ->
+                updateRecycler(l)
+            }
+        )
+
 
         return binding.root
     }
@@ -59,9 +70,15 @@ class MainScreenFragment : Fragment() {
         }
     }
 
-    private fun updateRecycler() {
-        list = DatabaseHandler(requireContext()).readItem()
+    private fun updateRecycler(l: MutableList<ItemData>) {
+        list = l
+//        list = DatabaseHandler(requireContext()).readItem()
         Log.d("List", list.toString())
+
+
+
+        println("String: ${list.toString()}")
+        // проверить, что viewModel инициализируется правильно в onViewCreated
         adapter = RecyclerAdapter(list as ArrayList<ItemData>)
         recyclerView.adapter = adapter
     }
@@ -94,9 +111,11 @@ class MainScreenFragment : Fragment() {
         override fun onClick(v: View?) {
             when (v?.tag) {
                 "delete" -> {
+                    println("List delete: ${list.toString()}")
                     list!!.removeAt(absoluteAdapterPosition)
                     recyclerView.adapter!!.notifyItemRemoved(absoluteAdapterPosition)
-                    DatabaseHandler(requireContext()).deleteItem(item.id)
+//                    DatabaseHandler(requireContext()).deleteItem(item.id)
+                    viewModel?.deleteRecord(item.id)
                 }
                 "update" -> {
                     findNavController().safeNavigate(MainScreenFragmentDirections.actionMainScreenFragmentToUpdatingItemsScreenFragment(item.id))

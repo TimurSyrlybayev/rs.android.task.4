@@ -1,4 +1,4 @@
-package com.example.rsschooltask4
+package com.example.rsschooltask4.data
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
 import android.widget.EditText
+import com.example.rsschooltask4.data.model.*
 
 class DatabaseHandler(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -15,7 +16,7 @@ class DatabaseHandler(context: Context) :
             CREATE TABLE $TABLE_NAME (
             $KEY_ID INTEGER PRIMARY KEY,
             $KEY_FIRST_PARAMETER TEXT,
-            $KEY_SECOND_PARAMETER INTEGER,
+            $KEY_SECOND_PARAMETER TEXT,
             $KEY_THIRD_PARAMETER TEXT);
         """.trimIndent()
         db?.execSQL(createTable)

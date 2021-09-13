@@ -1,15 +1,15 @@
-package com.example.rsschooltask4
+package com.example.rsschooltask4.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.rsschooltask4.R
 import com.example.rsschooltask4.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
