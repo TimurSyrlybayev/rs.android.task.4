@@ -36,7 +36,7 @@ class UpdatingItemsScreenFragment : Fragment() {
         val secondField = binding.updateSecondParameter
         val thirdField = binding.updateThirdParameter
         val args = UpdatingItemsScreenFragmentArgs.fromBundle(requireArguments())
-        val viewModel = TaskViewModel()
+        val viewModel = TaskViewModel(requireActivity().applicationContext)
         val snack = Snackbar.make(
             view,
             "Please fill at least one field to update record",

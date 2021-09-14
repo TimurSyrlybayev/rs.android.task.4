@@ -12,8 +12,26 @@ interface TaskDao {
     @Insert
     fun createItemRoom(itemData: ItemData)
 
-    @Query("SELECT * FROM $TABLE_NAME")
-    fun readTableRoom(): LiveData<MutableList<ItemData>>
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY $KEY_ID")
+    fun readTableRoomInitialOrder(): LiveData<MutableList<ItemData>>
+
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY $KEY_FIRST_PARAMETER COLLATE NOCASE ASC")
+    fun readTableRoomFirstParameterAsc(): LiveData<MutableList<ItemData>>
+
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY $KEY_FIRST_PARAMETER COLLATE NOCASE DESC")
+    fun readTableRoomFirstParameterDesc(): LiveData<MutableList<ItemData>>
+
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY $KEY_SECOND_PARAMETER COLLATE NOCASE ASC")
+    fun readTableRoomSecondParameterAsc(): LiveData<MutableList<ItemData>>
+
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY $KEY_SECOND_PARAMETER COLLATE NOCASE DESC")
+    fun readTableRoomSecondParameterDesc(): LiveData<MutableList<ItemData>>
+
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY $KEY_THIRD_PARAMETER COLLATE NOCASE ASC")
+    fun readTableRoomThirdParameterAsc(): LiveData<MutableList<ItemData>>
+
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY $KEY_THIRD_PARAMETER COLLATE NOCASE DESC")
+    fun readTableRoomThirdParameterDesc(): LiveData<MutableList<ItemData>>
 
     @Query("UPDATE $TABLE_NAME SET $KEY_FIRST_PARAMETER=:firstParameter WHERE $KEY_ID=:id")
     fun updateFirstParameterRoom(id: Long, firstParameter: String)

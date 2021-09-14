@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Sort by">
+    <PreferenceCategory android:title="@string/database_scheme_preference_category">
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="switch_preference_1"
-            android:title="@string/first_parameter" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="switch_preference_1"
-            android:title="@string/second_parameter" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="switch_preference_1"
-            android:title="@string/third_parameter" />
+            android:key="cursor-room_switch"
+            android:title="@string/preference_room_switcher" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/sort_preference_category">
+
+        <ListPreference
+            android:defaultValue="@string/fourth_parameter_alias"
+            android:entries="@array/sorting_parameters"
+            android:entryValues="@array/sorting_parameters_alias"
+            android:key="list_preference"
+            android:title="@string/list_preference_title" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

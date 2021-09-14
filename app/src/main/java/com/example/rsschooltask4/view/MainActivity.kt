@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.preference.PreferenceManager
 import com.example.rsschooltask4.R
 import com.example.rsschooltask4.databinding.ActivityMainBinding
 
@@ -30,6 +31,13 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+//        if (PreferenceManager.getDefaultSharedPreferences(this.applicationContext)
+//                .getBoolean("cursor-room_switch", false)) {
+//            this.actionBar?.subtitle = "Room"
+//        } else {
+//            this.actionBar?.subtitle = "Cursors"
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -37,8 +45,7 @@ class MainActivity : AppCompatActivity() {
         val menuIcon = menu!!.findItem(R.id.icon_sort)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             menuIcon.isVisible =
-                !(destination.id == R.id.addingItemsScreenFragment
-                        || destination.id == R.id.sortSettingScreenFragment)
+                (destination.id == R.id.mainScreenFragment)
         }
         return super.onCreateOptionsMenu(menu)
     }

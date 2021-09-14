@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import androidx.preference.Preference
+import androidx.preference.PreferenceManager
 import com.example.rsschooltask4.data.DatabaseHandler
 import com.example.rsschooltask4.data.model.ItemData
 import com.example.rsschooltask4.databinding.FragmentAddingItemsScreenBinding
@@ -30,10 +32,16 @@ class AddingItemsScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = requireActivity().applicationContext
+//        if (PreferenceManager.getDefaultSharedPreferences(context)
+//                .getBoolean("cursor-room_switch", false)) {
+//            activity?.actionBar?.subtitle = "Room"
+//        } else {
+//            activity?.actionBar?.subtitle = "Cursors"
+//        }
         val firstField = binding.firstParameter
         val secondField = binding.secondParameter
         val thirdField = binding.thirdParameter
-        val viewModel = TaskViewModel()
+        val viewModel = TaskViewModel(requireActivity().applicationContext)
         val snack = Snackbar.make(
             view,
             "Please fill at least one field to add record",
@@ -61,9 +69,9 @@ class AddingItemsScreenFragment : Fragment() {
                 viewModel.addRecord(itemData)
 //                DatabaseHandler(context)
 //                    .createItem(firstField, secondField, thirdField)
-//                firstField.text.clear()
-//                secondField.text.clear()
-//                thirdField.text.clear()
+                firstField.text.clear()
+                secondField.text.clear()
+                thirdField.text.clear()
             }
         }
     }

@@ -5,8 +5,34 @@
     <string name="first_parameter">Name</string>
     <string name="second_parameter">Color</string>
     <string name="third_parameter">Breed</string>
+    <string name="fourth_parameter_alias">id</string>
     <string name="main_screen_title">Main</string>
-    <string name="adding_items_screen_title">Add item</string>
-    <string name="sort_setting_screen">Sort by</string>
-    <string name="menu_item_sort">Sort by</string>
+    <string name="adding_items_screen_title">Add animal information</string>
+    <string name="updating_items_screen_title">Update animal information</string>
+    <string name="toolbar_icon_hint">Settings</string>
+    <string name="database_scheme_preference_category">Database scheme</string>
+    <string name="sort_preference_category">Sort by</string>
+    <string name="preference_room_switcher">Room</string>
+    <string name="preferences_fragment_title">Settings</string>
+    <string name="list_preference_title">Choose parameter</string>
+
+    <string-array name="sorting_parameters">
+        <item>Name Ascending</item>
+        <item>Name Descending</item>
+        <item>Color Ascending</item>
+        <item>Color Descending</item>
+        <item>Breed Ascending</item>
+        <item>Breed Descending</item>
+        <item>Initial Order</item>
+    </string-array>
+
+    <string-array name="sorting_parameters_alias">
+        <item>first_parameter_asc</item>
+        <item>first_parameter_desc</item>
+        <item>second_parameter_asc</item>
+        <item>second_parameter_desc</item>
+        <item>third_parameter_asc</item>
+        <item>third_parameter_desc</item>
+        <item>@string/fourth_parameter_alias</item>
+    </string-array>
 </resources>

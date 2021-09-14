@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsschooltask4.data.DatabaseHandler
 import com.example.rsschooltask4.R
+import com.example.rsschooltask4.data.CursorRepository
 import com.example.rsschooltask4.data.model.ItemData
 import com.example.rsschooltask4.databinding.FragmentMainScreenBinding
 import com.example.rsschooltask4.viewmodel.TaskViewModel
@@ -42,7 +43,8 @@ class MainScreenFragment : Fragment() {
         _binding = FragmentMainScreenBinding.inflate(inflater, container, false)
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        viewModel = TaskViewModel()
+        viewModel = TaskViewModel(requireActivity().applicationContext)
+
 
         viewModel!!.list.observe(
             viewLifecycleOwner,

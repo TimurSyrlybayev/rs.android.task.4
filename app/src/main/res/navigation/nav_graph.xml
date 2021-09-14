@@ -32,7 +32,7 @@
     <fragment
         android:id="@+id/sortSettingScreenFragment"
         android:name="com.example.rsschooltask4.view.SortSettingScreenFragment"
-        android:label="@string/sort_setting_screen" >
+        android:label="@string/preferences_fragment_title" >
         <action
             android:id="@+id/action_sortSettingScreenFragment_to_mainScreenFragment"
             app:destination="@id/mainScreenFragment" />
@@ -40,7 +40,7 @@
     <fragment
         android:id="@+id/updatingItemsScreenFragment"
         android:name="com.example.rsschooltask4.view.UpdatingItemsScreenFragment"
-        android:label="UpdatingItemsScreenFragment"
+        android:label="@string/updating_items_screen_title"
         tools:layout="@layout/fragment_updating_items_screen">
         <action
             android:id="@+id/action_updatingItemsScreenFragment_to_mainScreenFragment"
