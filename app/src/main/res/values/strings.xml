@@ -15,6 +15,15 @@
     <string name="preference_room_switcher">Room</string>
     <string name="preferences_fragment_title">Settings</string>
     <string name="list_preference_title">Choose parameter</string>
+    <string name="exit_dialog_question">Are you sure you want to exit?</string>
+    <string name="positive_answer">Yep, I\'m sure!</string>
+    <string name="negative_answer">Nah!</string>
+    <string name="update_button_description">Update</string>
+    <string name="delete_button_description">Delete</string>
+    <string name="add_button_description">Add</string>
+    <string name="text_for_empty_screen">There are no records for the moment, please add new one.</string>
+    <string name="database_room_scheme">Room scheme</string>
+    <string name="database_cursors_scheme">Cursors scheme</string>
 
     <string-array name="sorting_parameters">
         <item>Name Ascending</item>

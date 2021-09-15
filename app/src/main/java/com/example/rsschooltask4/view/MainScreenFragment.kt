@@ -1,29 +1,25 @@
 package com.example.rsschooltask4.view
 
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rsschooltask4.data.DatabaseHandler
 import com.example.rsschooltask4.R
-import com.example.rsschooltask4.data.CursorRepository
 import com.example.rsschooltask4.data.model.ItemData
 import com.example.rsschooltask4.databinding.FragmentMainScreenBinding
 import com.example.rsschooltask4.viewmodel.TaskViewModel
-import com.google.android.material.snackbar.Snackbar
 
 class MainScreenFragment : Fragment() {
 
@@ -33,7 +29,14 @@ class MainScreenFragment : Fragment() {
     private var adapter: RecyclerAdapter? = null
     private var list: MutableList<ItemData>? = null
     private var viewModel: TaskViewModel? = null
-//    private val provider = ViewModelProvider(this).get(TaskViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            ExitDialogFragment().show(childFragmentManager, ExitDialogFragment.TAG)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,16 +46,15 @@ class MainScreenFragment : Fragment() {
         _binding = FragmentMainScreenBinding.inflate(inflater, container, false)
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
+
         viewModel = TaskViewModel(requireActivity().applicationContext)
-
-
         viewModel!!.list.observe(
             viewLifecycleOwner,
-            Observer { l ->
+            { l ->
                 updateRecycler(l)
+                binding.noRecordsWarning.isVisible = l.isNullOrEmpty()
             }
         )
-
 
         return binding.root
     }
@@ -74,13 +76,6 @@ class MainScreenFragment : Fragment() {
 
     private fun updateRecycler(l: MutableList<ItemData>) {
         list = l
-//        list = DatabaseHandler(requireContext()).readItem()
-        Log.d("List", list.toString())
-
-
-
-        println("String: ${list.toString()}")
-        // проверить, что viewModel инициализируется правильно в onViewCreated
         adapter = RecyclerAdapter(list as ArrayList<ItemData>)
         recyclerView.adapter = adapter
     }
@@ -100,7 +95,6 @@ class MainScreenFragment : Fragment() {
         init {
             itemView.findViewById<ImageView>(R.id.delete_icon).setOnClickListener(this)
             itemView.findViewById<ImageView>(R.id.update_icon).setOnClickListener(this)
-            Log.d("List", "Init")
         }
 
         fun bind(item: ItemData) {
@@ -113,23 +107,27 @@ class MainScreenFragment : Fragment() {
         override fun onClick(v: View?) {
             when (v?.tag) {
                 "delete" -> {
-                    println("List delete: ${list.toString()}")
-                    list!!.removeAt(absoluteAdapterPosition)
-                    recyclerView.adapter!!.notifyItemRemoved(absoluteAdapterPosition)
-//                    DatabaseHandler(requireContext()).deleteItem(item.id)
-                    viewModel?.deleteRecord(item.id)
+                    if (absoluteAdapterPosition != -1) {
+                        list!!.removeAt(absoluteAdapterPosition)
+                        recyclerView.adapter!!.notifyItemRemoved(absoluteAdapterPosition)
+                        viewModel?.deleteRecord(item.id)
+                    }
                 }
                 "update" -> {
-                    findNavController().safeNavigate(MainScreenFragmentDirections.actionMainScreenFragmentToUpdatingItemsScreenFragment(item.id))
+                    findNavController()
+                        .safeNavigate(
+                            MainScreenFragmentDirections
+                                .actionMainScreenFragmentToUpdatingItemsScreenFragment(item.id)
+                        )
                 }
             }
+            object : CountDownTimer(300, 300) {
+                override fun onTick(millisUntilFinished: Long) {}
 
-            val snack = Snackbar.make(v!!, "${item.id} pressed", Snackbar.LENGTH_LONG)
-            val view = snack.view
-            val params = view.layoutParams as FrameLayout.LayoutParams
-            params.gravity = Gravity.TOP
-            view.layoutParams = params
-            snack.show()
+                override fun onFinish() {
+                    binding.noRecordsWarning.isVisible = list.isNullOrEmpty()
+                }
+            }.start()
         }
     }
 
@@ -147,6 +145,5 @@ class MainScreenFragment : Fragment() {
         override fun getItemCount(): Int {
             return list.size
         }
-
     }
 }

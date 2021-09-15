@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import androidx.preference.Preference
-import androidx.preference.PreferenceManager
-import com.example.rsschooltask4.data.DatabaseHandler
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.example.rsschooltask4.data.model.ItemData
 import com.example.rsschooltask4.databinding.FragmentAddingItemsScreenBinding
 import com.example.rsschooltask4.viewmodel.TaskViewModel
@@ -24,20 +24,13 @@ class AddingItemsScreenFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAddingItemsScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val context = requireActivity().applicationContext
-//        if (PreferenceManager.getDefaultSharedPreferences(context)
-//                .getBoolean("cursor-room_switch", false)) {
-//            activity?.actionBar?.subtitle = "Room"
-//        } else {
-//            activity?.actionBar?.subtitle = "Cursors"
-//        }
         val firstField = binding.firstParameter
         val secondField = binding.secondParameter
         val thirdField = binding.thirdParameter
@@ -67,11 +60,14 @@ class AddingItemsScreenFragment : Fragment() {
                     thirdField.text.toString()
                 )
                 viewModel.addRecord(itemData)
-//                DatabaseHandler(context)
-//                    .createItem(firstField, secondField, thirdField)
                 firstField.text.clear()
                 secondField.text.clear()
                 thirdField.text.clear()
+
+                findNavController().safeNavigate(
+                    AddingItemsScreenFragmentDirections
+                        .actionAddingItemsScreenFragmentToMainScreenFragment()
+                )
             }
         }
     }
@@ -79,5 +75,11 @@ class AddingItemsScreenFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun NavController.safeNavigate(direction: NavDirections) {
+        currentDestination?.getAction(direction.actionId)?.run {
+            navigate(direction)
+        }
     }
 }

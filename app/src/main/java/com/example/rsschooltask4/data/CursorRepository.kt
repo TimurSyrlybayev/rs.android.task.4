@@ -6,17 +6,15 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.rsschooltask4.data.model.*
-import com.example.rsschooltask4.view.MainActivity
 import java.lang.IllegalStateException
 
 class CursorRepository(context: Context) :
     RepositoryInterface,
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-    var liveDataList: MutableLiveData<MutableList<ItemData>> = MutableLiveData()
+    private var liveDataList: MutableLiveData<MutableList<ItemData>> = MutableLiveData()
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable = """
             CREATE TABLE $TABLE_NAME (
@@ -34,7 +32,6 @@ class CursorRepository(context: Context) :
     }
 
     override suspend fun addItem(itemData: ItemData) {
-        println("Cursor add item")
         val db: SQLiteDatabase = writableDatabase
         val values = ContentValues()
         values.put(KEY_FIRST_PARAMETER, itemData.first_parameter)
@@ -71,7 +68,6 @@ class CursorRepository(context: Context) :
                 } while (moveToNext())
             }
             close()
-            println("Cursor read table")
             liveDataList.postValue(list)
             return liveDataList
         }
@@ -83,7 +79,6 @@ class CursorRepository(context: Context) :
         secondParameter: String,
         thirdParameter: String
     ) {
-        println("Cursor update item")
         val db:SQLiteDatabase = writableDatabase
         val values = ContentValues()
 
@@ -100,7 +95,6 @@ class CursorRepository(context: Context) :
     }
 
     override suspend fun deleteItem(id: Long) {
-        println("Cursor delete item")
         val db:SQLiteDatabase = writableDatabase
 
         db.delete(TABLE_NAME, "$KEY_ID=?", arrayOf(id.toString()))

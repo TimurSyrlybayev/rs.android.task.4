@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import com.example.rsschooltask4.data.DatabaseHandler
 import com.example.rsschooltask4.databinding.FragmentUpdatingItemsScreenBinding
 import com.example.rsschooltask4.viewmodel.TaskViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -24,14 +23,13 @@ class UpdatingItemsScreenFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUpdatingItemsScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val context = requireActivity().applicationContext
         val firstField = binding.updateFirstParameter
         val secondField = binding.updateSecondParameter
         val thirdField = binding.updateThirdParameter
@@ -55,13 +53,6 @@ class UpdatingItemsScreenFragment : Fragment() {
             ) {
                 snack.show()
             } else {
-//                DatabaseHandler(context)
-//                    .updateItem(
-//                        args.identificationNumber,
-//                        firstField,
-//                        secondField,
-//                        thirdField,
-//                    )
                 viewModel.updateRecord(
                     args.identificationNumber,
                     firstField.text.toString(),
@@ -75,6 +66,11 @@ class UpdatingItemsScreenFragment : Fragment() {
                 )
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun NavController.safeNavigate(direction: NavDirections) {
