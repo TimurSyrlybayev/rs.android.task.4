@@ -9,3 +9,5 @@ The task is to create Database of cats/dogs/auto(anything you want)
 * Optionally you can add Update and Delete functionality!
 
 # On the image you can see the mockups of all screens, it's not the exact design, so feel free to play with design and items :)
+
+This amendment is made just for starting new branch in order to make pull request posible.
